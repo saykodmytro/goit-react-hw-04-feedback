@@ -1,55 +1,59 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { Container } from './Container/Container';
 import { Title } from './Title/Title';
 import { ButtonList } from './ButtonList/ButtonList';
 import { Statistics } from './Statistics/Statistics';
 import { Notification } from './Notification/Notification';
 
-export class App extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0,
+export const App = () => {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+
+  const onLeaveFeedback = option => {
+    switch (option) {
+      case 'good':
+        setGood(prevState => prevState + 1);
+        break;
+      case 'neutral':
+        setNeutral(prevState => prevState + 1);
+        break;
+      case 'bad':
+        setBad(prevState => prevState + 1);
+        break;
+      default:
+        break;
+    }
   };
 
-  onLeaveFeedback = option => {
-    this.setState(prevState => ({ [option]: prevState[option] + 1 }));
-  };
-  countTotalFeedback = () => {
-    const { good, neutral, bad } = this.state;
-    return good + neutral + bad;
-  };
+  const countTotalFeedback = () => good + neutral + bad;
 
-  countPositiveFeedbackPercentage = () => {
-    const all = this.countTotalFeedback();
-    const good = this.state.good;
+  const countPositiveFeedbackPercentage = () => {
+    const all = countTotalFeedback();
     const percent = (good / all) * 100;
     return percent.toFixed();
   };
 
-  render() {
-    const { good, neutral, bad } = this.state;
-    const totalFeedback = this.countTotalFeedback();
-    const positivePercentage = this.countPositiveFeedbackPercentage();
-    return (
-      <Container>
-        <Title title="Please leave feedback" />
-        <ButtonList
-          options={Object.keys(this.state)}
-          onLeaveFeedback={this.onLeaveFeedback}
+  const totalFeedback = countTotalFeedback();
+  const positivePercentage = countPositiveFeedbackPercentage();
+  return (
+    <Container>
+      <Title title="Please leave feedback" />
+      <ButtonList
+        options={['good', 'neutral', 'bad']}
+        onLeaveFeedback={onLeaveFeedback}
+      />
+      {totalFeedback ? (
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={totalFeedback}
+          positivePercentage={positivePercentage}
         />
-        {totalFeedback ? (
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={totalFeedback}
-            positivePercentage={positivePercentage}
-          />
-        ) : (
-          <Notification notif="There is no feedback" />
-        )}
-      </Container>
-    );
-  }
-}
+      ) : (
+        <Notification notif="There is no feedback" />
+      )}
+    </Container>
+  );
+};
