@@ -1,0 +1,29 @@
+.sectionStatistics {
+}
+
+.title {
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  width: 300px;
+  list-style: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.item {
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  align-items: center;
+  width: 250px;
+  margin-bottom: 20px;
+  border: 1px solid gray;
+  border-radius: 20px;
+  box-shadow: 10px 8px 35px -9px rgba(0, 0, 0, 0.91);
+}

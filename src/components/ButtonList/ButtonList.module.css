@@ -1,0 +1,12 @@
+.list {
+  display: flex;
+  list-style: none;
+  justify-content: space-evenly;
+}
+
+.btnList {
+  width: 80px;
+  height: 30px;
+  border-radius: 5px;
+  background-color: lightgray;
+}
